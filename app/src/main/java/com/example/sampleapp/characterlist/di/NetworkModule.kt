@@ -1,5 +1,11 @@
-package com.example.sampleapp.movielist.api
+package com.example.sampleapp.characterlist.di
 
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
+import com.example.sampleapp.characterlist.MyApplication
+import com.example.sampleapp.characterlist.model.CharacterDao
+import com.example.sampleapp.characterlist.model.CharacterDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -13,20 +19,19 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-object NetworkModule {
+class NetworkModule {
+
     @Provides
     @Reusable
-    @JvmStatic
-    internal fun provideHomeApi(retrofit: Retrofit): MovieAPIInterface {
-        return retrofit.create(MovieAPIInterface::class.java)
+    internal fun provideHomeApi(retrofit: Retrofit): APIInterface {
+        return retrofit.create(APIInterface::class.java)
     }
 
     @Provides
     @Reusable
-    @JvmStatic
     internal fun provideRetrofitInterface(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/movie/")
+            .baseUrl("https://thronesapi.com/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .client(okHttpClient)
@@ -50,5 +55,17 @@ object NetworkModule {
         return client.build()
     }
 
+  /*  @Provides
+    @Singleton
+    fun provideDbInstance(context: Context): CharacterDatabase {
+        return Room.databaseBuilder(MyApplication.instance, CharacterDatabase::class.java, "app_db")
+            .allowMainThreadQueries().build()
+    }
 
+    @Singleton
+    @Provides
+    fun getUserDao(characterDatabase: CharacterDatabase):CharacterDao{
+        return characterDatabase.getCharacterDAO()
+    }
+*/
 }

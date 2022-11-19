@@ -1,4 +1,4 @@
-package com.example.sampleapp.movielist
+package com.example.sampleapp.characterlist.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,12 +7,11 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sampleapp.databinding.ActivityMovieListBinding
-import com.example.sampleapp.movielist.viewmodel.MovieViewModel
 
-class MovieListActivity : AppCompatActivity() {
+class CharacterListActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMovieListBinding
-    private lateinit var viewModel: MovieViewModel
-    private lateinit var movieAdapter : MovieListAdapter
+    private lateinit var viewModel: ThroneViewModel
+    private lateinit var characterListAdapter : CharacterListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +19,9 @@ class MovieListActivity : AppCompatActivity() {
         binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         prepareRecyclerView()
-        viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
-        viewModel.observeMovieLiveData().observe(this, { movieList ->
-            movieAdapter.setMovieList(movieList)
+        viewModel = ViewModelProvider(this)[ThroneViewModel::class.java]
+        viewModel.observeCharacterLiveData().observe(this, { characterList ->
+            characterListAdapter.setCharacterList(characterList)
             binding.pbLoad.visibility= View.INVISIBLE
 
         })
@@ -41,10 +40,10 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private fun prepareRecyclerView() {
-        movieAdapter = MovieListAdapter()
-        binding.rvMovies.apply {
+        characterListAdapter = CharacterListAdapter()
+        binding.rvCharacter.apply {
             layoutManager = GridLayoutManager(applicationContext,2)
-            adapter = movieAdapter
+            adapter = characterListAdapter
         }
     }
 
